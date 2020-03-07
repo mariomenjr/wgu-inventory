@@ -3,7 +3,8 @@
 # Edit at https://www.gitignore.io/?templates=java
 
 # Visual Studio Code
-.vscode
+.vscode/
+out/
 settings.json
 
 ### Java ###
