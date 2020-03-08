@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane hgap="7.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" vgap="2.5" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<GridPane hgap="7.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" vgap="2.5" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="home.Controller">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -68,7 +68,7 @@
             </TableView>
             <HBox alignment="CENTER_RIGHT" prefWidth="200.0" spacing="2.5" GridPane.rowIndex="2" GridPane.vgrow="NEVER">
                <children>
-                  <Button mnemonicParsing="false" text="Add" />
+                  <Button mnemonicParsing="false" text="Add" onAction="#openPartForm"/>
                   <Button mnemonicParsing="false" text="Modify" />
                   <Button mnemonicParsing="false" text="Delete" />
                </children>
@@ -123,7 +123,7 @@
       </GridPane>
       <HBox alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <children>
-            <Button mnemonicParsing="false" text="Exit">
+            <Button mnemonicParsing="false" text="Exit" onAction="#exitApplication">
                <HBox.margin>
                   <Insets top="2.5" />
                </HBox.margin>
