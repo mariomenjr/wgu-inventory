@@ -68,8 +68,8 @@
             </TableView>
             <HBox alignment="CENTER_RIGHT" prefWidth="200.0" spacing="2.5" GridPane.rowIndex="2" GridPane.vgrow="NEVER">
                <children>
-                  <Button mnemonicParsing="false" text="Add" onAction="#openPartForm"/>
-                  <Button mnemonicParsing="false" text="Modify" />
+                  <Button mnemonicParsing="false" onAction="#openAddPartForm" text="Add" />
+                  <Button mnemonicParsing="false" onAction="#openUpdatePartForm" text="Modify" />
                   <Button mnemonicParsing="false" text="Delete" />
                </children>
             </HBox>
@@ -114,8 +114,8 @@
             </TableView>
             <HBox alignment="CENTER_RIGHT" prefWidth="200.0" spacing="2.5" GridPane.rowIndex="2" GridPane.vgrow="NEVER">
                <children>
-                  <Button mnemonicParsing="false" text="Add" />
-                  <Button mnemonicParsing="false" text="Modify" />
+                  <Button mnemonicParsing="false" onAction="#openAddProductForm" text="Add" />
+                  <Button mnemonicParsing="false" onAction="#openUpdateProductForm" text="Modify" />
                   <Button mnemonicParsing="false" text="Delete" />
                </children>
             </HBox>
@@ -123,7 +123,7 @@
       </GridPane>
       <HBox alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <children>
-            <Button mnemonicParsing="false" text="Exit" onAction="#exitApplication">
+            <Button mnemonicParsing="false" onAction="#exitApplication" text="Exit">
                <HBox.margin>
                   <Insets top="2.5" />
                </HBox.margin>
