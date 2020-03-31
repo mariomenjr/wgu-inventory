@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.ArrayList;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -20,12 +19,9 @@ import models.Product;
 
 public class Main extends Application {
 
-    private static Stage homeStage;
+    private static Stage _homeStage;
 
-    private static Inventory inventory;
-    // private static ArrayList<Product> dbProducts = new ArrayList();
-    // private static ArrayList<InHouse> dbPartsInHouse = new ArrayList();
-    // private static ArrayList<OutSourced> dbPartsOutSource = new ArrayList();
+    public static Inventory inventory;
 
     public static final String PATH_PRODUCT = "../data/products.db";
     public static final String PATH_PART_INHOUSE = "../data/parts.inhouse.db";
@@ -35,7 +31,7 @@ public class Main extends Application {
     public void start(final Stage primaryStage) throws Exception {
         final Parent root = FXMLLoader.load(getClass().getResource("Home.fxml"));
 
-        homeStage = primaryStage;
+        _homeStage = primaryStage;
 
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 600, 400));
@@ -43,12 +39,11 @@ public class Main extends Application {
     }
 
     public static Stage getPrimeryStage() {
-        return homeStage;
+        return _homeStage;
     }
 
     public static void loadData(String filePath) {
         try {
-
             URL url = Main.class.getResource(filePath);
 
             FileInputStream iS = new FileInputStream(url.getPath());
@@ -56,7 +51,6 @@ public class Main extends Application {
 
             String line;
             while ((line = bR.readLine()) != null) {
-                System.out.println(new String(line));
                 String[] split = line.split(",");
 
                 switch (filePath) {
@@ -102,9 +96,10 @@ public class Main extends Application {
 
     public static void main(final String[] args) {
         inventory = new Inventory();
-        // loadData(PATH_PRODUCT);
-        // loadData(PATH_PART_INHOUSE);
-        // loadData(PATH_PART_OUTSOURCED);
+
+        loadData(PATH_PRODUCT);
+        loadData(PATH_PART_INHOUSE);
+        loadData(PATH_PART_OUTSOURCED);
 
         launch(args);
     }

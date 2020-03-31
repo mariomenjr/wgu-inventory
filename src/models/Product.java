@@ -4,15 +4,15 @@ import javafx.collections.ObservableList;
 
 public class Product {
 
-    private int id;
+    private Integer id;
     private String name;
     private Double price;
-    private int stock;
-    private int min;
-    private int max;
+    private Integer stock;
+    private Integer min;
+    private Integer max;
     private ObservableList<Part> associatedParts;
 
-    public Product(int id, String name, Double price, int stock, int min, int max) {
+    public Product(Integer id, String name, Double price, Integer stock, Integer min, Integer max) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -21,11 +21,11 @@ public class Product {
         this.max = max;
     }
 
-    public void setId(int value) {
+    public void setId(Integer value) {
         this.id = value;
     }
 
-    public int getId() {
+    public Integer getId() {
         return this.id;
     }
 
@@ -45,27 +45,27 @@ public class Product {
         return this.price;
     }
 
-    public void setStock(int value) {
+    public void setStock(Integer value) {
         this.stock = value;
     }
 
-    public int getStock() {
+    public Integer getStock() {
         return this.stock;
     }
 
-    public void setMin(int value) {
+    public void setMin(Integer value) {
         this.min = value;
     }
 
-    public int getMin() {
+    public Integer getMin() {
         return this.min;
     }
 
-    public void setMax(int value) {
+    public void setMax(Integer value) {
         this.max = value;
     }
 
-    public int getMax() {
+    public Integer getMax() {
         return this.max;
     }
 

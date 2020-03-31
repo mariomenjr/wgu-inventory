@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -48,7 +47,7 @@
                   </HBox>
                   <HBox alignment="CENTER_RIGHT" spacing="2.5">
                      <children>
-                        <TextField />
+                        <TextField fx:id="SearchPartBox" onKeyReleased="#onSearchTextChanged" />
                         <Button mnemonicParsing="false" text="Search" />
                      </children>
                   </HBox>
@@ -57,11 +56,7 @@
                   <Insets bottom="5.0" />
                </GridPane.margin>
             </HBox>
-            <TableView GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
-              <columns>
-                <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="75.0" text="C2" />
-              </columns>
+            <TableView fx:id="partTableView" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                <GridPane.margin>
                   <Insets bottom="5.0" top="5.0" />
                </GridPane.margin>
@@ -70,7 +65,7 @@
                <children>
                   <Button mnemonicParsing="false" onAction="#openAddPartForm" text="Add" />
                   <Button mnemonicParsing="false" onAction="#openUpdatePartForm" text="Modify" />
-                  <Button mnemonicParsing="false" text="Delete" />
+                  <Button fx:id="PartDeleteButton" mnemonicParsing="false" onAction="#onRowDeleteClicked" text="Delete" />
                </children>
             </HBox>
          </children>
@@ -94,7 +89,7 @@
                   </HBox>
                   <HBox alignment="CENTER_RIGHT" spacing="2.5">
                      <children>
-                        <TextField />
+                        <TextField fx:id="SearchProductBox" onKeyReleased="#onSearchTextChanged" />
                         <Button mnemonicParsing="false" text="Search" />
                      </children>
                   </HBox>
@@ -103,11 +98,7 @@
                   <Insets bottom="5.0" />
                </GridPane.margin>
             </HBox>
-            <TableView GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
-               <columns>
-                  <TableColumn prefWidth="75.0" text="C1" />
-                  <TableColumn prefWidth="75.0" text="C2" />
-               </columns>
+            <TableView fx:id="productTableView" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                <GridPane.margin>
                   <Insets bottom="5.0" top="5.0" />
                </GridPane.margin>
@@ -116,7 +107,7 @@
                <children>
                   <Button mnemonicParsing="false" onAction="#openAddProductForm" text="Add" />
                   <Button mnemonicParsing="false" onAction="#openUpdateProductForm" text="Modify" />
-                  <Button mnemonicParsing="false" text="Delete" />
+                  <Button fx:id="ProductDeleteButton" mnemonicParsing="false" onAction="#onRowDeleteClicked" text="Delete" />
                </children>
             </HBox>
          </children>
