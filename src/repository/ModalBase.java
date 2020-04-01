@@ -1,22 +1,25 @@
-package utils;
+package repository;
 
 import java.net.URL;
 
 import home.Main;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public final class Modal {
+public abstract class ModalBase {
 
-    public static Stage openScreen(String path) throws Exception {
+    public Stage openScreen(String path) throws Exception {
         Stage primaryStage = Main.getPrimeryStage();
-        
+
         // Scene secondScene = new Scene(secondaryLayout, 230, 100);
-        URL urlResource = Modal.class.getResource(path);
-        final Parent template = FXMLLoader.load(urlResource);
+        URL urlResource = this.getClass().getResource(path);
+        FXMLLoader loader = new FXMLLoader(urlResource);
+        final Parent template = loader.load();
 
         // New window (Stage)
         Stage newWindow = new Stage();
@@ -35,7 +38,12 @@ public final class Modal {
         newWindow.setResizable(false);
 
         newWindow.show();
+        this.setRowController(loader);
 
         return newWindow;
+    }
+
+    public void setRowController(FXMLLoader loader) {
+        System.out.println("You need to override this method in your implementation!");
     }
 }

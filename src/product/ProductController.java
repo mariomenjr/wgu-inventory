@@ -1,6 +1,6 @@
 package product;
 
-public class Controller {
+public class ProductController {
 
     public void outConsole() {
         System.out.println("ProductController");

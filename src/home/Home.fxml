@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane hgap="7.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" vgap="2.5" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="home.Controller">
+<GridPane hgap="7.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" vgap="2.5" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="home.MainController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -64,7 +64,7 @@
             <HBox alignment="CENTER_RIGHT" prefWidth="200.0" spacing="2.5" GridPane.rowIndex="2" GridPane.vgrow="NEVER">
                <children>
                   <Button mnemonicParsing="false" onAction="#openAddPartForm" text="Add" />
-                  <Button mnemonicParsing="false" onAction="#openUpdatePartForm" text="Modify" />
+                  <Button fx:id="PartModifyButton" mnemonicParsing="false" onAction="#onRowModifyClicked" text="Modify" />
                   <Button fx:id="PartDeleteButton" mnemonicParsing="false" onAction="#onRowDeleteClicked" text="Delete" />
                </children>
             </HBox>
@@ -106,7 +106,7 @@
             <HBox alignment="CENTER_RIGHT" prefWidth="200.0" spacing="2.5" GridPane.rowIndex="2" GridPane.vgrow="NEVER">
                <children>
                   <Button mnemonicParsing="false" onAction="#openAddProductForm" text="Add" />
-                  <Button mnemonicParsing="false" onAction="#openUpdateProductForm" text="Modify" />
+                  <Button fx:id="ProductModifyButton" mnemonicParsing="false" onAction="#onRowModifyClicked" text="Modify" />
                   <Button fx:id="ProductDeleteButton" mnemonicParsing="false" onAction="#onRowDeleteClicked" text="Delete" />
                </children>
             </HBox>

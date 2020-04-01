@@ -1,23 +1,23 @@
 package home;
 
-import java.util.function.Predicate;
-
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import models.Part;
 import models.Product;
-import utils.Modal;
+import part.PartController;
+import part.PartModal;
 
-public class Controller {
+public class MainController {
 
     public static final String PRODUCT_TYPE = "PRODUCT_TYPE";
     public static final String PART_TYPE = "PART_TYPE";
@@ -51,18 +51,8 @@ public class Controller {
 
     public void openAddPartForm() {
         try {
-            Stage st = Modal.openScreen("../part/Form.fxml");
-            System.out.println(st.getTitle());
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.exit(1);
-        }
-    }
-
-    public void openUpdatePartForm() {
-        try {
-            Stage st = Modal.openScreen("../part/Form.fxml");
-            System.out.println(st.getTitle());
+            // Stage st = Modal.openScreen("../part/Form.fxml");
+            // System.out.println(st.getTitle());
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.exit(1);
@@ -71,23 +61,50 @@ public class Controller {
 
     public void openAddProductForm() {
         try {
-            Stage st = Modal.openScreen("../product/Form.fxml");
-            System.out.println(st.getTitle());
+            // Stage st = Modal.openScreen("../product/Form.fxml");
+            // System.out.println(st.getTitle());
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.exit(1);
         }
     }
 
-    public void openUpdateProductForm() {
+    public void onRowModifyClicked(ActionEvent event) {
         try {
-            Stage st = Modal.openScreen("../product/Form.fxml");
-            System.out.println(st.getTitle());
+
+            Button eT = (Button) event.getSource();
+            switch (eT.idProperty().getValue()) {
+                case "PartModifyButton":
+                    int i = this.partTableView.getSelectionModel().getSelectedIndex();
+                    PartModal partModal = new PartModal(this.partTableView.getItems().get(i));
+                    partModal.openScreen("../part/PartForm.fxml");
+
+                    break;
+
+                case "ProductModifyButton":
+                    // Stage productForm = Modal.openScreen("../product/ProductForm.fxml");
+                    break;
+
+                default:
+                    break;
+            }
+
+            // System.out.println(st.getTitle());
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.exit(1);
         }
     }
+
+    // public void openUpdateProductForm() {
+    // try {
+    // Stage st = Modal.openScreen("../product/Form.fxml");
+    // System.out.println(st.getTitle());
+    // } catch (Exception e) {
+    // System.out.println(e.getMessage());
+    // System.exit(1);
+    // }
+    // }
 
     public void onSearchTextChanged(KeyEvent event) {
         try {
@@ -115,34 +132,31 @@ public class Controller {
                     break;
             }
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println(e.getMessage());
+            System.exit(1);
         }
     }
 
     public void onRowDeleteClicked(ActionEvent event) {
         try {
-            TableView tV;
-            int index = -1;
             Button eT = (Button) event.getSource();
 
             switch (eT.idProperty().getValue()) {
                 case "PartDeleteButton":
-                    index = this.partTableView.getSelectionModel().getSelectedIndex();
-                    tV = this.partTableView;
+                    int i = this.partTableView.getSelectionModel().getSelectedIndex();
+                    if (i >= 0)
+                        Main.inventory.getAllParts().remove(this.partTableView.getItems().get(i));
                     break;
 
                 case "ProductDeleteButton":
-                    index = this.productTableView.getSelectionModel().getSelectedIndex();
-                    tV = this.productTableView;
+                    int j = this.productTableView.getSelectionModel().getSelectedIndex();
+                    if (j >= 0)
+                        Main.inventory.getAllProducts().remove(this.productTableView.getItems().get(j));
                     break;
 
                 default:
-                    tV = new TableView<Object>();
                     break;
             }
-
-            if (index >= 0)
-                tV.getItems().remove(index);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.exit(1);
