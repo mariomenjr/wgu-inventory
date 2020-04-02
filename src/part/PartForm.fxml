@@ -74,8 +74,8 @@
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="2.5" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS">
                      <children>
-                        <RadioButton mnemonicParsing="false" text="In-house" />
-                        <RadioButton mnemonicParsing="false" text="Outsourced" />
+                        <RadioButton fx:id="PartInHouseRadio" mnemonicParsing="false" text="In-house" />
+                        <RadioButton fx:id="PartOutsourcedRadio" mnemonicParsing="false" text="Outsourced" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="5">
@@ -100,18 +100,18 @@
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                      <children>
-                        <TextField prefHeight="26.0" prefWidth="135.0" HBox.hgrow="NEVER" />
+                        <TextField fx:id="PartTextfieldMax" prefHeight="26.0" prefWidth="135.0" HBox.hgrow="NEVER" />
                         <Label text="Min">
                            <HBox.margin>
                               <Insets left="5.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField prefHeight="26.0" prefWidth="134.0" />
+                        <TextField fx:id="PartTextfieldMin" prefHeight="26.0" prefWidth="134.0" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
                      <children>
-                        <TextField HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="PartTextfieldCompanyName" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
                </children>
