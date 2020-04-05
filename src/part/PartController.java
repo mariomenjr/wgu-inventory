@@ -1,17 +1,12 @@
 package part;
 
-import java.awt.Event;
-import java.util.regex.Pattern;
-
 import home.Main;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
@@ -130,12 +125,14 @@ public class PartController extends ControllerBase<Part> {
     public void onSave(ActionEvent event) {
         String className = this._dataRow.getClass().getName();
         Boolean isInHouse = this._tG.getSelectedToggle() == this.PartInHouseRadio;
+        String partMessage = this.PartTextfieldId.getText();
 
         System.out.println(className);
 
         if (this._isAdd) {
             ObservableList<Part> inventoryParts = Main.inventory.getAllParts();
             this._dataRow.setId(inventoryParts.get(inventoryParts.size() - 1).getId() + 1);
+            partMessage = Integer.toString(this._dataRow.getId());
         } else
             this._dataRow.setId(Integer.parseInt(this.PartTextfieldId.getText()));
 
@@ -154,7 +151,7 @@ public class PartController extends ControllerBase<Part> {
                     inHouse.setMachineId(Integer.parseInt(this.PartTextfieldCompanyName.getText()));
 
                     if (this._isAdd)
-                        Main.inventory.addPart((OutSourced) this._dataRow);
+                        Main.inventory.addPart(inHouse);
                     else {
                         int i = Main.inventory.getAllParts().indexOf(this._dataRow);
                         Main.inventory.getAllParts().set(i, inHouse);
@@ -178,7 +175,7 @@ public class PartController extends ControllerBase<Part> {
                     outSourced.setCompanyName(this.PartTextfieldCompanyName.getText());
 
                     if (this._isAdd)
-                        Main.inventory.addPart((OutSourced) this._dataRow);
+                        Main.inventory.addPart(outSourced);
                     else {
                         int i = Main.inventory.getAllParts().indexOf(this._dataRow);
                         Main.inventory.getAllParts().set(i, outSourced);
@@ -193,6 +190,6 @@ public class PartController extends ControllerBase<Part> {
         this._tableView.refresh();
         this.onCancel();
 
-        Main.showMessageBox("Part " + this.PartTextfieldId.getText(), "The part has been updated successfully!");
+        Main.showMessageBox("Part " + partMessage, "The part has been updated successfully!");
     }
 }
