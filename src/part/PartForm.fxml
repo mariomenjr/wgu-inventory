@@ -64,7 +64,7 @@
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <TextField fx:id="PartTextfieldId" onKeyTyped="#onTextfieldKeyTyped" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="PartTextfieldId" disable="true" editable="false" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
@@ -85,28 +85,28 @@
                   </HBox>
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="6">
                      <children>
-                        <Label text="Company Name" />
+                        <Label fx:id="PartLabelCompanyName" text="Company Name" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <children>
-                        <TextField fx:id="PartTextfieldInv" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="PartTextfieldInv" onKeyPressed="#onTextfieldKeyTypedIsValidWhenInteger" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <children>
-                        <TextField fx:id="PartTextfieldPrice" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="PartTextfieldPrice" onKeyPressed="#onTextfieldKeyTypedIsValidWhenPrice" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                      <children>
-                        <TextField fx:id="PartTextfieldMax" prefHeight="26.0" prefWidth="135.0" HBox.hgrow="NEVER" />
+                        <TextField fx:id="PartTextfieldMax" onKeyPressed="#onTextfieldKeyTypedIsValidWhenInteger" prefHeight="26.0" prefWidth="135.0" HBox.hgrow="NEVER" />
                         <Label text="Min">
                            <HBox.margin>
                               <Insets left="5.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField fx:id="PartTextfieldMin" prefHeight="26.0" prefWidth="134.0" />
+                        <TextField fx:id="PartTextfieldMin" onKeyPressed="#onTextfieldKeyTypedIsValidWhenInteger" prefHeight="26.0" prefWidth="134.0" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
@@ -120,8 +120,8 @@
       </HBox>
       <HBox alignment="CENTER_RIGHT" prefWidth="200.0" spacing="2.5" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
          <children>
-            <Button mnemonicParsing="false" text="Save" />
-            <Button mnemonicParsing="false" text="Cancel" />
+            <Button mnemonicParsing="false" onAction="#onSave" text="Save" />
+            <Button mnemonicParsing="false" onAction="#onCancel" text="Cancel" />
          </children>
       </HBox>
    </children>

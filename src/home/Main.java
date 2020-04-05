@@ -1,6 +1,7 @@
 package home;
 
 import java.io.FileNotFoundException;
+import java.beans.EventHandler;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -8,9 +9,13 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.DialogEvent;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import models.InHouse;
 import models.Inventory;
@@ -38,6 +43,16 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+    public static Alert showMessageBox(String headerStr, String messageStr) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+
+        alert.setHeaderText(headerStr);
+        alert.setContentText(messageStr);
+        alert.show();
+
+        return alert;
+    }
+
     public static Stage getPrimeryStage() {
         return _homeStage;
     }
@@ -63,8 +78,8 @@ public class Main extends Application {
 
                     case PATH_PART_INHOUSE:
                         InHouse inh = new InHouse(Integer.parseInt(split[0]), split[1], Double.parseDouble(split[2]),
-                                Integer.parseInt(split[3]), Integer.parseInt(split[4]), Integer.parseInt(split[5]));
-                        inh.setMachineId(Integer.parseInt(split[6]));
+                                Integer.parseInt(split[3]), Integer.parseInt(split[4]), Integer.parseInt(split[5]),
+                                Integer.parseInt(split[6]));
 
                         inventory.addPart(inh);
                         break;
@@ -72,8 +87,7 @@ public class Main extends Application {
                     case PATH_PART_OUTSOURCED:
                         OutSourced outs = new OutSourced(Integer.parseInt(split[0]), split[1],
                                 Double.parseDouble(split[2]), Integer.parseInt(split[3]), Integer.parseInt(split[4]),
-                                Integer.parseInt(split[5]));
-                        outs.setCompanyName(split[6]);
+                                Integer.parseInt(split[5]), split[6]);
 
                         inventory.addPart(outs);
                         break;

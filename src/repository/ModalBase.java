@@ -13,6 +13,8 @@ import javafx.stage.Stage;
 
 public abstract class ModalBase {
 
+    public Stage windowInstance;
+
     public Stage openScreen(String path) throws Exception {
         Stage primaryStage = Main.getPrimeryStage();
 
@@ -22,25 +24,25 @@ public abstract class ModalBase {
         final Parent template = loader.load();
 
         // New window (Stage)
-        Stage newWindow = new Stage();
-        newWindow.setTitle(path);
-        newWindow.setScene(new Scene(template, 600, 400));
+        this.windowInstance = new Stage();
+        this.windowInstance.setTitle(path);
+        this.windowInstance.setScene(new Scene(template, 600, 400));
 
         // Specifies the modality for new window.
-        newWindow.initModality(Modality.WINDOW_MODAL);
+        this.windowInstance.initModality(Modality.WINDOW_MODAL);
 
         // Specifies the owner Window (parent) for new window
-        newWindow.initOwner(primaryStage);
+        this.windowInstance.initOwner(primaryStage);
 
         // Set position of second window, related to primary window.
-        newWindow.setX(primaryStage.getX() + 200);
-        newWindow.setY(primaryStage.getY() + 100);
-        newWindow.setResizable(false);
+        this.windowInstance.setX(primaryStage.getX() + 200);
+        this.windowInstance.setY(primaryStage.getY() + 100);
+        this.windowInstance.setResizable(false);
 
-        newWindow.show();
+        this.windowInstance.show();
         this.setRowController(loader);
 
-        return newWindow;
+        return this.windowInstance;
     }
 
     public void setRowController(FXMLLoader loader) {

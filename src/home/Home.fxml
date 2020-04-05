@@ -63,8 +63,8 @@
             </TableView>
             <HBox alignment="CENTER_RIGHT" prefWidth="200.0" spacing="2.5" GridPane.rowIndex="2" GridPane.vgrow="NEVER">
                <children>
-                  <Button mnemonicParsing="false" onAction="#openAddPartForm" text="Add" />
-                  <Button fx:id="PartModifyButton" mnemonicParsing="false" onAction="#onRowModifyClicked" text="Modify" />
+                  <Button fx:id="PartAddButton" mnemonicParsing="false" onAction="#onRowActionClicked" text="Add" />
+                  <Button fx:id="PartModifyButton" mnemonicParsing="false" onAction="#onRowActionClicked" text="Modify" />
                   <Button fx:id="PartDeleteButton" mnemonicParsing="false" onAction="#onRowDeleteClicked" text="Delete" />
                </children>
             </HBox>
@@ -105,8 +105,8 @@
             </TableView>
             <HBox alignment="CENTER_RIGHT" prefWidth="200.0" spacing="2.5" GridPane.rowIndex="2" GridPane.vgrow="NEVER">
                <children>
-                  <Button mnemonicParsing="false" onAction="#openAddProductForm" text="Add" />
-                  <Button fx:id="ProductModifyButton" mnemonicParsing="false" onAction="#onRowModifyClicked" text="Modify" />
+                  <Button fx:id="ProductAddButton" mnemonicParsing="false" onAction="#onRowActionClicked" text="Add" />
+                  <Button fx:id="ProductModifyButton" mnemonicParsing="false" onAction="#onRowActionClicked" text="Modify" />
                   <Button fx:id="ProductDeleteButton" mnemonicParsing="false" onAction="#onRowDeleteClicked" text="Delete" />
                </children>
             </HBox>

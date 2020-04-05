@@ -2,20 +2,22 @@ package home;
 
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
-import javafx.stage.Stage;
+import models.InHouse;
+import models.OutSourced;
 import models.Part;
 import models.Product;
-import part.PartController;
 import part.PartModal;
+import product.ProductModal;
 
 public class MainController {
 
@@ -49,75 +51,77 @@ public class MainController {
         }
     }
 
-    public void openAddPartForm() {
+    public void onRowActionClicked(ActionEvent event) {
         try {
-            // Stage st = Modal.openScreen("../part/Form.fxml");
-            // System.out.println(st.getTitle());
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.exit(1);
-        }
-    }
-
-    public void openAddProductForm() {
-        try {
-            // Stage st = Modal.openScreen("../product/Form.fxml");
-            // System.out.println(st.getTitle());
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.exit(1);
-        }
-    }
-
-    public void onRowModifyClicked(ActionEvent event) {
-        try {
-
             Button eT = (Button) event.getSource();
-            switch (eT.idProperty().getValue()) {
-                case "PartModifyButton":
-                    int i = this.partTableView.getSelectionModel().getSelectedIndex();
-                    PartModal partModal = new PartModal(this.partTableView.getItems().get(i));
-                    partModal.openScreen("../part/PartForm.fxml");
+            String botonId = eT.idProperty().getValue();
+            Boolean isAdd = eT.getText().equalsIgnoreCase("Add");
 
+            switch (botonId) {
+                case "PartModifyButton":
+                case "PartAddButton":
+                    if (isAdd) {
+                        new PartModal((Part) new InHouse(0, "", 0.0, 0, 0, 0, 0), this.partTableView)
+                                .openScreen("../part/PartForm.fxml").setTitle("Add Part");
+                    } else {
+                        int i = this.partTableView.getSelectionModel().getSelectedIndex();
+                        if (i < 0) {
+                            Main.showMessageBox("There's a problem", "No row has been selected to get modified.")
+                                    .setAlertType(AlertType.ERROR);
+                            return;
+                        }
+
+                        Part currentPart = this.partTableView.getItems().get(i);
+                        switch (currentPart.getClass().getName()) {
+                            case "models.OutSourced":
+                                new PartModal(currentPart, this.partTableView).openScreen("../part/PartForm.fxml")
+                                        .setTitle("Modify Part");
+                                break;
+
+                            case "models.InHouse":
+                                new PartModal(currentPart, this.partTableView).openScreen("../part/PartForm.fxml")
+                                        .setTitle("Modify Part");
+                                break;
+
+                            default:
+                                break;
+                        }
+                    }
                     break;
 
                 case "ProductModifyButton":
-                    // Stage productForm = Modal.openScreen("../product/ProductForm.fxml");
+                case "ProductAddButton":
+                    int j = this.productTableView.getSelectionModel().getSelectedIndex();
+                    ProductModal productModal = new ProductModal(this.productTableView.getItems().get(j));
+                    productModal.openScreen("../product/ProductForm.fxml")
+                            .setTitle((isAdd ? "Add" : "Modify") + " " + "Product");
+
                     break;
 
                 default:
                     break;
             }
-
-            // System.out.println(st.getTitle());
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.exit(1);
         }
     }
 
-    // public void openUpdateProductForm() {
-    // try {
-    // Stage st = Modal.openScreen("../product/Form.fxml");
-    // System.out.println(st.getTitle());
-    // } catch (Exception e) {
-    // System.out.println(e.getMessage());
-    // System.exit(1);
-    // }
-    // }
-
     public void onSearchTextChanged(KeyEvent event) {
         try {
             TextField tF = (TextField) event.getSource();
             String strText = tF.textProperty().getValue();
+
             switch (tF.idProperty().getValue()) {
                 case "SearchPartBox":
                     this.filteredPartData.setPredicate(row -> {
                         if (strText == null || strText.isEmpty())
                             return true;
+
                         return row.getName().toLowerCase().contains(strText.toLowerCase());
                     });
-                    this.filteredPartData.clear();
+
+                    this.partTableView.refresh();
                     break;
 
                 case "SearchProductBox":
@@ -126,7 +130,8 @@ public class MainController {
                             return true;
                         return row.getName().toLowerCase().contains(strText.toLowerCase());
                     });
-                    this.filteredProductData.clear();
+
+                    this.productTableView.refresh();
                     break;
                 default:
                     break;
@@ -139,24 +144,41 @@ public class MainController {
 
     public void onRowDeleteClicked(ActionEvent event) {
         try {
-            Button eT = (Button) event.getSource();
+            Alert messageBox = Main.showMessageBox("Do you really want to remove this record?", "");
+            messageBox.alertTypeProperty().set(AlertType.CONFIRMATION);
 
-            switch (eT.idProperty().getValue()) {
+            switch (((Button) event.getSource()).idProperty().getValue()) {
                 case "PartDeleteButton":
-                    int i = this.partTableView.getSelectionModel().getSelectedIndex();
-                    if (i >= 0)
-                        Main.inventory.getAllParts().remove(this.partTableView.getItems().get(i));
-                    break;
 
+                    int i = this.partTableView.getSelectionModel().getSelectedIndex();
+                    if (i < 0) {
+                        messageBox.alertTypeProperty().set(AlertType.ERROR);
+                        messageBox.setHeaderText("No Part selected!");
+                    } else
+                        messageBox.resultProperty().addListener((observable, oldValue, newValue) -> {
+                            if (newValue.getButtonData().isCancelButton())
+                                return;
+                            Main.inventory.getAllParts().remove(this.partTableView.getItems().get(i));
+                        });
+                    break;
                 case "ProductDeleteButton":
                     int j = this.productTableView.getSelectionModel().getSelectedIndex();
-                    if (j >= 0)
-                        Main.inventory.getAllProducts().remove(this.productTableView.getItems().get(j));
+
+                    if (j < 0) {
+                        messageBox.alertTypeProperty().set(AlertType.ERROR);
+                        messageBox.setHeaderText("No Product selected!");
+                    } else
+                        messageBox.resultProperty().addListener((observable, oldValue, newValue) -> {
+                            if (newValue.getButtonData().isCancelButton())
+                                return;
+                            Main.inventory.getAllProducts().remove(this.productTableView.getItems().get(j));
+                        });
                     break;
 
                 default:
                     break;
             }
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.exit(1);
