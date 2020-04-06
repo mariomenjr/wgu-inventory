@@ -177,6 +177,8 @@ public class PartController extends ControllerBase<Part> {
             switch (className) {
                 case "models.OutSourced":
                     if (isInHouse) {
+                        // When the user has change the type of Part being saved, a new instance needs
+                        // to be created
                         InHouse inHouse = new InHouse(this._dataRow.getId(), this._dataRow.getName(),
                                 this._dataRow.getPrice(), this._dataRow.getStock(), this._dataRow.getMin(),
                                 this._dataRow.getMax(), 0);
@@ -202,6 +204,8 @@ public class PartController extends ControllerBase<Part> {
                         if (this._isAdd)
                             Main.inventory.addPart((InHouse) this._dataRow);
                     } else {
+                        // When the user has change the type of Part being saved, a new instance needs
+                        // to be created
                         OutSourced outSourced = new OutSourced(this._dataRow.getId(), this._dataRow.getName(),
                                 this._dataRow.getPrice(), this._dataRow.getStock(), this._dataRow.getMin(),
                                 this._dataRow.getMax(), "");

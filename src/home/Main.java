@@ -21,10 +21,13 @@ import models.Product;
 
 public class Main extends Application {
 
+    // Main window
     private static Stage _homeStage;
 
+    // Global inventory, accessible everywhere
     public static Inventory inventory;
 
+    // Paths for default shown data
     public static final String PATH_PRODUCT = "../data/products.db";
     public static final String PATH_PART_INHOUSE = "../data/parts.inhouse.db";
     public static final String PATH_PART_OUTSOURCED = "../data/parts.outsourced.db";
@@ -40,6 +43,13 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Helper to show an alert box when needed
+     * 
+     * @param headerStr  text in the header of the message box
+     * @param messageStr main text
+     * @return
+     */
     public static Alert showMessageBox(String headerStr, String messageStr) {
         Alert alert = new Alert(AlertType.INFORMATION);
 
@@ -54,6 +64,11 @@ public class Main extends Application {
         return _homeStage;
     }
 
+    /**
+     * Loads default data into Main window
+     * 
+     * @param filePath Path to specific data
+     */
     public static void loadData(String filePath) {
         try {
             URL url = Main.class.getResource(filePath);

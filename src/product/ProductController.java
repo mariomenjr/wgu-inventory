@@ -66,16 +66,18 @@ public class ProductController extends ControllerBase<Product> {
 
     private void _renderData() {
         try {
+            // Temporary list that helps us to not modify original list when the user have
+            // not click on Save button yet
             this.observableDelPartData = FXCollections.observableArrayList();
             this._dataRow.getAllAssociatedParts().forEach(part -> {
                 String className = part.getClass().getName();
                 switch (className) {
                     case "models.OutSourced":
-                        this.observableDelPartData.add(part/* new InHouse(0, "", 0.0, 0, 0, 0, 0) */);
+                        this.observableDelPartData.add(part);
 
                         break;
                     case "models.InHouse":
-                        this.observableDelPartData.add(part/* new OutSourced(0, "", 0.0, 0, 0, 0, "") */);
+                        this.observableDelPartData.add(part);
                         break;
 
                     default:

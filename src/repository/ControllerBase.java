@@ -25,6 +25,12 @@ public abstract class ControllerBase<T> {
                 || key == KeyCode.TAB || event.isControlDown();
     }
 
+    /**
+     * Validator for Textfield When a user types into the field, it can only enter
+     * Integers
+     * 
+     * @param event
+     */
     public void onTextfieldKeyTypedIsValidWhenInteger(KeyEvent event) {
         try {
             Boolean isNotValid = !Pattern.compile("[0-9]").matcher(event.getText()).matches();
@@ -35,6 +41,12 @@ public abstract class ControllerBase<T> {
         }
     }
 
+    /**
+     * Validator for Textfield When a user types into the field, it can only enter
+     * Decimals
+     * 
+     * @param event
+     */
     public void onTextfieldKeyTypedIsValidWhenPrice(KeyEvent event) {
         try {
             KeyCode key = event.getCode();

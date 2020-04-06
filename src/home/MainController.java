@@ -21,19 +21,23 @@ public class MainController {
     public static final String PRODUCT_TYPE = "PRODUCT_TYPE";
     public static final String PART_TYPE = "PART_TYPE";
 
+    // Helpers to achieve filtering
     private FilteredList<Part> filteredPartData;
     private FilteredList<Product> filteredProductData;
 
+    // Instances of controls in view
     @FXML
     private TableView<Product> productTableView;
     @FXML
     private TableView<Part> partTableView;
-
     @FXML
     private TextField SearchProductBox;
     @FXML
     private TextField SearchPartBox;
 
+    /**
+     * Method executed when FXML is initialize
+     */
     @FXML
     public void initialize() {
         try {
@@ -48,9 +52,14 @@ public class MainController {
         }
     }
 
+    /**
+     * Handler for add or modify button
+     * 
+     * @param event
+     */
     public void onRowActionClicked(ActionEvent event) {
         try {
-            Button eT = (Button) event.getSource();
+            Button eT = (Button) event.getSource(); // Button dispatching event
             String botonId = eT.idProperty().getValue();
             Boolean isAdd = eT.getText().equalsIgnoreCase("Add");
 
@@ -58,11 +67,13 @@ public class MainController {
                 case "PartModifyButton":
                 case "PartAddButton":
                     if (isAdd) {
+                        // Since this is a Add action, we send a brand new instance
                         new PartModal((Part) new InHouse(0, "", 0.0, 0, 0, 0, 0), this.partTableView)
                                 .openScreen("../part/PartForm.fxml").setTitle("Add Part");
                     } else {
                         int i = this.partTableView.getSelectionModel().getSelectedIndex();
                         if (i < 0) {
+                            // If not row have been selected, we cannot modify
                             Main.showMessageBox("There's a problem", "No row has been selected to get modified.")
                                     .setAlertType(AlertType.ERROR);
                             return;
@@ -71,6 +82,8 @@ public class MainController {
                         Part currentPart = this.partTableView.getItems().get(i);
                         switch (currentPart.getClass().getName()) {
                             case "models.OutSourced":
+                                // Part modal is a middleman that allow us to inject dependencies into the
+                                // controller instance
                                 new PartModal(currentPart, this.partTableView).openScreen("../part/PartForm.fxml")
                                         .setTitle("Modify Part");
                                 break;
@@ -106,6 +119,11 @@ public class MainController {
         }
     }
 
+    /**
+     * Handler for search buttons
+     * 
+     * @param event
+     */
     public void onSearchClick(ActionEvent event) {
         try {
             Button bt = (Button) event.getSource();
@@ -120,7 +138,7 @@ public class MainController {
                         return row.getName().toLowerCase().contains(str1.toLowerCase());
                     });
 
-                    this.partTableView.refresh();
+                    this.partTableView.refresh(); // Needed to reflect the predicate result
                     break;
 
                 case "ProductButtonSearch":
@@ -142,6 +160,11 @@ public class MainController {
         }
     }
 
+    /**
+     * Handler for delete buttons
+     * 
+     * @param event
+     */
     public void onRowDeleteClicked(ActionEvent event) {
         try {
             Alert messageBox = Main.showMessageBox("Do you really want to remove this record?", "");
@@ -189,6 +212,10 @@ public class MainController {
         System.exit(0);
     }
 
+    /**
+     * Binds ObservableList from inventory to each TableView
+     * 
+     */
     private void _renderData() {
         try {
             this.filteredPartData = new FilteredList<Part>(Main.inventory.getAllParts(), p -> true);
@@ -202,6 +229,11 @@ public class MainController {
         }
     }
 
+    /**
+     * Draws columns in TableViews
+     * 
+     * @param table
+     */
     private void _renderTable(String table) {
         try {
             switch (table) {
