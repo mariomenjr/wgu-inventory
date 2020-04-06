@@ -13,8 +13,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
-import models.InHouse;
-import models.OutSourced;
 import models.Part;
 import models.Product;
 import repository.ControllerBase;
