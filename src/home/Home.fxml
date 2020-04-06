@@ -47,8 +47,8 @@
                   </HBox>
                   <HBox alignment="CENTER_RIGHT" spacing="2.5">
                      <children>
-                        <TextField fx:id="SearchPartBox" onKeyReleased="#onSearchTextChanged" />
-                        <Button mnemonicParsing="false" text="Search" />
+                        <TextField fx:id="SearchPartBox" />
+                        <Button fx:id="PartButtonSearch" mnemonicParsing="false" onAction="#onSearchClick" text="Search" />
                      </children>
                   </HBox>
                </children>
@@ -89,8 +89,8 @@
                   </HBox>
                   <HBox alignment="CENTER_RIGHT" spacing="2.5">
                      <children>
-                        <TextField fx:id="SearchProductBox" onKeyReleased="#onSearchTextChanged" />
-                        <Button mnemonicParsing="false" text="Search" />
+                        <TextField fx:id="SearchProductBox" />
+                        <Button fx:id="ProductButtonSearch" mnemonicParsing="false" onAction="#onSearchClick" text="Search" />
                      </children>
                   </HBox>
                </children>

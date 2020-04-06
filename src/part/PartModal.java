@@ -5,11 +5,9 @@ import javafx.scene.control.TableView;
 import models.Part;
 import repository.ModalBase;
 
-public class PartModal extends ModalBase {
+public class PartModal extends ModalBase<Part> {
 
-    Part rowData;
     PartController screenController;
-    TableView<Part> tableView;
 
     public PartModal(Part rowData, TableView<Part> tableView) {
         super();
@@ -21,8 +19,8 @@ public class PartModal extends ModalBase {
     public void setRowController(FXMLLoader loader) {
         this.screenController = loader.getController();
 
+        this.screenController.setWindowsInstance(this.windowInstance);
         this.screenController.setPartRow(this.rowData);
         this.screenController.setTableView(this.tableView);
-        this.screenController.setWindowsInstance(this.windowInstance);
     }
 }

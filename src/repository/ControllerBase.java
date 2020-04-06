@@ -15,7 +15,6 @@ public abstract class ControllerBase<T> {
     protected ToggleGroup _tG;
     protected TableView<T> _tableView;
     protected T _dataRow;
-    protected T _contraryRow;
 
     protected boolean _isAdd = true;
 

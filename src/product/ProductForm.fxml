@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -12,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<GridPane alignment="CENTER" maxHeight="400.0" maxWidth="450.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="product.ProductController">
+<GridPane alignment="CENTER" maxHeight="400.0" maxWidth="900.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="product.ProductController">
   <columnConstraints>
     <ColumnConstraints hgrow="ALWAYS" />
   </columnConstraints>
@@ -24,7 +23,7 @@
    <children>
       <HBox>
          <children>
-            <Label text="Product Form" />
+            <Label fx:id="ProductFormLabel" text="Product Form" />
          </children>
       </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
@@ -68,12 +67,12 @@
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <TextField HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="ProdTextfieldId" disable="true" editable="false" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
                      <children>
-                        <TextField HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="ProdTextfieldName" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="2.5" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
@@ -85,60 +84,50 @@
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="7" />
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <children>
-                        <TextField HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="ProdTextfieldInv" onKeyPressed="#onTextfieldKeyTypedIsValidWhenInteger" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                      <children>
-                        <TextField HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="ProdTextfieldPrice" onKeyPressed="#onTextfieldKeyTypedIsValidWhenPrice" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
                      <children>
-                        <TextField prefHeight="26.0" prefWidth="135.0" HBox.hgrow="NEVER" />
+                        <TextField fx:id="ProdTextfieldMax" onKeyPressed="#onTextfieldKeyTypedIsValidWhenInteger" prefHeight="26.0" prefWidth="135.0" HBox.hgrow="NEVER" />
                         <Label prefHeight="16.0" prefWidth="64.0" text="Min">
                            <HBox.margin>
                               <Insets left="5.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField prefHeight="26.0" prefWidth="134.0" />
+                        <TextField fx:id="ProdTextfieldMin" onKeyPressed="#onTextfieldKeyTypedIsValidWhenInteger" prefHeight="26.0" prefWidth="134.0" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                   <VBox prefHeight="123.0" prefWidth="304.0" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.rowSpan="3">
                      <children>
-                        <TableView prefHeight="200.0" prefWidth="200.0">
-                          <columns>
-                            <TableColumn prefWidth="75.0" text="C1" />
-                            <TableColumn prefWidth="75.0" text="C2" />
-                          </columns>
-                        </TableView>
+                        <TableView fx:id="ProdTableViewPartToAdd" prefHeight="200.0" prefWidth="200.0" />
                      </children>
                   </VBox>
                   <VBox prefHeight="157.0" prefWidth="411.0" GridPane.columnIndex="2" GridPane.rowIndex="5" GridPane.rowSpan="3">
                      <children>
-                        <TableView prefHeight="200.0" prefWidth="200.0">
-                          <columns>
-                            <TableColumn prefWidth="75.0" text="C1" />
-                            <TableColumn prefWidth="75.0" text="C2" />
-                          </columns>
-                        </TableView>
+                        <TableView fx:id="ProdTableViewPartToDelete" prefHeight="200.0" prefWidth="200.0" />
                         <HBox prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Button mnemonicParsing="false" text="Delete" />
+                              <Button mnemonicParsing="false" onAction="#onDeletePart" text="Delete" />
                            </children>
                         </HBox>
                      </children>
                   </VBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
                      <children>
-                        <Button mnemonicParsing="false" text="Add" />
+                        <Button mnemonicParsing="false" onAction="#onAddPart" text="Add" />
                      </children>
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
                      <children>
-                        <TextField />
-                        <Button mnemonicParsing="false" text="Search" />
+                        <TextField fx:id="PartTextfieldSearch" />
+                        <Button fx:id="PartButtonSearch" mnemonicParsing="false" onAction="#onSearchAddPart" text="Search" />
                      </children>
                   </HBox>
                </children>
@@ -147,8 +136,8 @@
       </HBox>
       <HBox alignment="CENTER_RIGHT" prefWidth="200.0" spacing="2.5" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
          <children>
-            <Button mnemonicParsing="false" text="Save" />
-            <Button mnemonicParsing="false" onAction="#outConsole" text="Cancel" />
+            <Button mnemonicParsing="false" onAction="#onSave" text="Save" />
+            <Button mnemonicParsing="false" onAction="#onCancel" text="Cancel" />
          </children>
       </HBox>
    </children>

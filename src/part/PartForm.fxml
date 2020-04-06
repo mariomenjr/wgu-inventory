@@ -22,7 +22,7 @@
    <children>
       <HBox>
          <children>
-            <Label text="Part Form" />
+            <Label fx:id="PartFormLabel" text="Part Form" />
          </children>
       </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">

@@ -3,17 +3,19 @@ package repository;
 import java.net.URL;
 
 import home.Main;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TableView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public abstract class ModalBase {
+public abstract class ModalBase<T> {
 
     public Stage windowInstance;
+
+    protected T rowData;
+    protected TableView<T> tableView;
 
     public Stage openScreen(String path) throws Exception {
         Stage primaryStage = Main.getPrimeryStage();

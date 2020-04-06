@@ -31,9 +31,9 @@ public class MainController {
     private TableView<Part> partTableView;
 
     @FXML
-    private TextField searchProductBox;
+    private TextField SearchProductBox;
     @FXML
-    private TextField searchPartBox;
+    private TextField SearchPartBox;
 
     @FXML
     public void initialize() {
@@ -90,7 +90,9 @@ public class MainController {
                 case "ProductModifyButton":
                 case "ProductAddButton":
                     int j = this.productTableView.getSelectionModel().getSelectedIndex();
-                    ProductModal productModal = new ProductModal(this.productTableView.getItems().get(j));
+                    ProductModal productModal = new ProductModal(
+                            isAdd ? new Product(0, "", 0.0, 0, 0, 0) : this.productTableView.getItems().get(j),
+                            this.productTableView);
                     productModal.openScreen("../product/ProductForm.fxml")
                             .setTitle((isAdd ? "Add" : "Modify") + " " + "Product");
 
@@ -105,28 +107,29 @@ public class MainController {
         }
     }
 
-    public void onSearchTextChanged(KeyEvent event) {
+    public void onSearchClick(ActionEvent event) {
         try {
-            TextField tF = (TextField) event.getSource();
-            String strText = tF.textProperty().getValue();
+            Button bt = (Button) event.getSource();
 
-            switch (tF.idProperty().getValue()) {
-                case "SearchPartBox":
+            switch (bt.idProperty().getValue()) {
+                case "PartButtonSearch":
+                    String str1 = this.SearchPartBox.getText();
                     this.filteredPartData.setPredicate(row -> {
-                        if (strText == null || strText.isEmpty())
+                        if (str1 == null || str1.isEmpty())
                             return true;
 
-                        return row.getName().toLowerCase().contains(strText.toLowerCase());
+                        return row.getName().toLowerCase().contains(str1.toLowerCase());
                     });
 
                     this.partTableView.refresh();
                     break;
 
-                case "SearchProductBox":
+                case "ProductButtonSearch":
+                    String str2 = this.SearchProductBox.getText();
                     this.filteredProductData.setPredicate(row -> {
-                        if (strText == null || strText.isEmpty())
+                        if (str2 == null || str2.isEmpty())
                             return true;
-                        return row.getName().toLowerCase().contains(strText.toLowerCase());
+                        return row.getName().toLowerCase().contains(str2.toLowerCase());
                     });
 
                     this.productTableView.refresh();

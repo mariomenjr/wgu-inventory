@@ -10,6 +10,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyEvent;
 import models.InHouse;
 import models.OutSourced;
@@ -39,6 +40,9 @@ public class PartController extends ControllerBase<Part> {
     @FXML
     private TextField PartTextfieldCompanyName;
 
+    @FXML
+    private Label PartFormLabel;
+
     private EventHandler<KeyEvent> keyEventHandlerValidateInteger = new EventHandler<KeyEvent>() {
         public void handle(KeyEvent event) {
             onTextfieldKeyTypedIsValidWhenInteger(event);
@@ -59,6 +63,7 @@ public class PartController extends ControllerBase<Part> {
         });
 
         this._isAdd = this._dataRow.getId() == 0;
+        this.PartFormLabel.setText(this._isAdd ? "Add Part" : "Modify Part");
     }
 
     private void _reactToggleGroup(String className) {
@@ -66,6 +71,8 @@ public class PartController extends ControllerBase<Part> {
             case "models.OutSourced":
                 this._tG.selectToggle(this.PartOutsourcedRadio);
                 this.PartLabelCompanyName.setText("Company Name");
+
+                this.PartTextfieldCompanyName.setText("");
                 this.PartTextfieldCompanyName.removeEventHandler(KeyEvent.KEY_PRESSED,
                         this.keyEventHandlerValidateInteger);
                 break;
@@ -73,6 +80,8 @@ public class PartController extends ControllerBase<Part> {
             case "models.InHouse":
                 this._tG.selectToggle(this.PartInHouseRadio);
                 this.PartLabelCompanyName.setText("Machine Id");
+
+                this.PartTextfieldCompanyName.setText("");
                 this.PartTextfieldCompanyName.addEventHandler(KeyEvent.KEY_PRESSED,
                         this.keyEventHandlerValidateInteger);
                 break;
@@ -112,6 +121,25 @@ public class PartController extends ControllerBase<Part> {
         }
     }
 
+    private Boolean _validateBeforeSaving() {
+        try {
+            int max = Integer.parseInt(this.PartTextfieldMax.getText());
+            int min = Integer.parseInt(this.PartTextfieldMin.getText());
+
+            if (max < min)
+                throw new Exception("Max value must be greater or equal than Min value.");
+
+            int inv = Integer.parseInt(this.PartTextfieldInv.getText());
+            if (inv > max)
+                throw new Exception("Inventory surpasses Max value.");
+
+            return true;
+        } catch (Exception e) {
+            Main.showMessageBox("No valid values!", e.getMessage()).setAlertType(AlertType.ERROR);
+            return false;
+        }
+    }
+
     public void setPartRow(Part parRow) {
         this._dataRow = parRow;
         this._init();
@@ -123,73 +151,81 @@ public class PartController extends ControllerBase<Part> {
     }
 
     public void onSave(ActionEvent event) {
-        String className = this._dataRow.getClass().getName();
-        Boolean isInHouse = this._tG.getSelectedToggle() == this.PartInHouseRadio;
-        String partMessage = this.PartTextfieldId.getText();
+        try {
+            if (!this._validateBeforeSaving())
+                return;
 
-        System.out.println(className);
+            String className = this._dataRow.getClass().getName();
+            Boolean isInHouse = this._tG.getSelectedToggle() == this.PartInHouseRadio;
+            String partMessage = this.PartTextfieldId.getText();
 
-        if (this._isAdd) {
-            ObservableList<Part> inventoryParts = Main.inventory.getAllParts();
-            this._dataRow.setId(inventoryParts.get(inventoryParts.size() - 1).getId() + 1);
-            partMessage = Integer.toString(this._dataRow.getId());
-        } else
-            this._dataRow.setId(Integer.parseInt(this.PartTextfieldId.getText()));
+            System.out.println(className);
 
-        this._dataRow.setName(this.PartTextfieldName.getText());
-        this._dataRow.setStock(Integer.parseInt(this.PartTextfieldInv.getText()));
-        this._dataRow.setPrice(Double.parseDouble(this.PartTextfieldPrice.getText()));
-        this._dataRow.setMax(Integer.parseInt(this.PartTextfieldMax.getText()));
-        this._dataRow.setMin(Integer.parseInt(this.PartTextfieldMin.getText()));
+            if (this._isAdd) {
+                ObservableList<Part> inventoryParts = Main.inventory.getAllParts();
+                this._dataRow.setId(inventoryParts.get(inventoryParts.size() - 1).getId() + 1);
+                partMessage = Integer.toString(this._dataRow.getId());
+            } else
+                this._dataRow.setId(Integer.parseInt(this.PartTextfieldId.getText()));
 
-        switch (className) {
-            case "models.OutSourced":
-                if (isInHouse) {
-                    InHouse inHouse = new InHouse(this._dataRow.getId(), this._dataRow.getName(),
-                            this._dataRow.getPrice(), this._dataRow.getStock(), this._dataRow.getMin(),
-                            this._dataRow.getMax(), 0);
-                    inHouse.setMachineId(Integer.parseInt(this.PartTextfieldCompanyName.getText()));
+            this._dataRow.setName(this.PartTextfieldName.getText());
+            this._dataRow.setStock(Integer.parseInt(this.PartTextfieldInv.getText()));
+            this._dataRow.setPrice(Double.parseDouble(this.PartTextfieldPrice.getText()));
+            this._dataRow.setMax(Integer.parseInt(this.PartTextfieldMax.getText()));
+            this._dataRow.setMin(Integer.parseInt(this.PartTextfieldMin.getText()));
 
-                    if (this._isAdd)
-                        Main.inventory.addPart(inHouse);
-                    else {
-                        int i = Main.inventory.getAllParts().indexOf(this._dataRow);
-                        Main.inventory.getAllParts().set(i, inHouse);
+            switch (className) {
+                case "models.OutSourced":
+                    if (isInHouse) {
+                        InHouse inHouse = new InHouse(this._dataRow.getId(), this._dataRow.getName(),
+                                this._dataRow.getPrice(), this._dataRow.getStock(), this._dataRow.getMin(),
+                                this._dataRow.getMax(), 0);
+                        inHouse.setMachineId(Integer.parseInt(this.PartTextfieldCompanyName.getText()));
+
+                        if (this._isAdd)
+                            Main.inventory.addPart(inHouse);
+                        else {
+                            int i = Main.inventory.getAllParts().indexOf(this._dataRow);
+                            Main.inventory.getAllParts().set(i, inHouse);
+                        }
+                    } else {
+                        ((OutSourced) this._dataRow).setCompanyName(this.PartTextfieldCompanyName.getText());
+                        if (this._isAdd)
+                            Main.inventory.addPart((OutSourced) this._dataRow);
                     }
-                } else {
-                    ((OutSourced) this._dataRow).setCompanyName(this.PartTextfieldCompanyName.getText());
-                    if (this._isAdd)
-                        Main.inventory.addPart((OutSourced) this._dataRow);
-                }
-                break;
+                    break;
 
-            case "models.InHouse":
-                if (isInHouse) {
-                    ((InHouse) this._dataRow).setMachineId(Integer.parseInt(this.PartTextfieldCompanyName.getText()));
-                    if (this._isAdd)
-                        Main.inventory.addPart((InHouse) this._dataRow);
-                } else {
-                    OutSourced outSourced = new OutSourced(this._dataRow.getId(), this._dataRow.getName(),
-                            this._dataRow.getPrice(), this._dataRow.getStock(), this._dataRow.getMin(),
-                            this._dataRow.getMax(), "");
-                    outSourced.setCompanyName(this.PartTextfieldCompanyName.getText());
+                case "models.InHouse":
+                    if (isInHouse) {
+                        ((InHouse) this._dataRow)
+                                .setMachineId(Integer.parseInt(this.PartTextfieldCompanyName.getText()));
+                        if (this._isAdd)
+                            Main.inventory.addPart((InHouse) this._dataRow);
+                    } else {
+                        OutSourced outSourced = new OutSourced(this._dataRow.getId(), this._dataRow.getName(),
+                                this._dataRow.getPrice(), this._dataRow.getStock(), this._dataRow.getMin(),
+                                this._dataRow.getMax(), "");
+                        outSourced.setCompanyName(this.PartTextfieldCompanyName.getText());
 
-                    if (this._isAdd)
-                        Main.inventory.addPart(outSourced);
-                    else {
-                        int i = Main.inventory.getAllParts().indexOf(this._dataRow);
-                        Main.inventory.getAllParts().set(i, outSourced);
+                        if (this._isAdd)
+                            Main.inventory.addPart(outSourced);
+                        else {
+                            int i = Main.inventory.getAllParts().indexOf(this._dataRow);
+                            Main.inventory.getAllParts().set(i, outSourced);
+                        }
                     }
-                }
-                break;
+                    break;
 
-            default:
-                break;
+                default:
+                    break;
+            }
+
+            this._tableView.refresh();
+            this.onCancel();
+
+            Main.showMessageBox("Part " + partMessage, "The part has been updated successfully!");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
-
-        this._tableView.refresh();
-        this.onCancel();
-
-        Main.showMessageBox("Part " + partMessage, "The part has been updated successfully!");
     }
 }

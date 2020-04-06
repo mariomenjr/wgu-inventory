@@ -1,7 +1,6 @@
 package home;
 
 import java.io.FileNotFoundException;
-import java.beans.EventHandler;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -9,12 +8,10 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.DialogEvent;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import models.InHouse;
@@ -72,7 +69,6 @@ public class Main extends Application {
                     case PATH_PRODUCT:
                         Product prod = new Product(Integer.parseInt(split[0]), split[1], Double.parseDouble(split[2]),
                                 Integer.parseInt(split[3]), Integer.parseInt(split[4]), Integer.parseInt(split[5]));
-
                         inventory.addProduct(prod);
                         break;
 
